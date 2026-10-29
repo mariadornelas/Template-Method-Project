@@ -1,10 +1,5 @@
 package com.faculdade.sensor;
 
-/**
- * Concrete Class 2: o hardware de pressão entrega kPa, e o sistema trabalha
- * em bar. A calibração aqui é uma conversão de unidade (100 kPa = 1 bar),
- * um passo diferente do de temperatura, mas encaixado no mesmo esqueleto.
- */
 public class ProcedimentoPressao extends ProcedimentoMedicao {
 
     private static final double KPA_POR_BAR = 100.0;

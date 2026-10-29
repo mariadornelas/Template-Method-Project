@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Os passos específicos de cada sensor, vistos pelo resultado do template method. */
 class ProcedimentosConcretosTest {
-
-    // ---- ProcedimentoTemperatura: calibração soma 2 graus; limites 70/90 ----
 
     @Test
     void temperaturaDeveCalibrarSomandoODesvioDoHardware() {
@@ -23,10 +20,10 @@ class ProcedimentosConcretosTest {
     void temperaturaDeveClassificarOValorCalibradoENaoOBruto() {
         ProcedimentoTemperatura p = new ProcedimentoTemperatura();
 
-        assertEquals("NORMAL", p.executar(67.0).status());   // 69 calibrado
-        assertEquals("ALERTA", p.executar(68.0).status());   // 70 calibrado: no limite
-        assertEquals("ALERTA", p.executar(87.0).status());   // 89 calibrado
-        assertEquals("CRITICO", p.executar(88.0).status());  // 90 calibrado: no limite
+        assertEquals("NORMAL", p.executar(67.0).status());
+        assertEquals("ALERTA", p.executar(68.0).status());
+        assertEquals("ALERTA", p.executar(87.0).status());
+        assertEquals("CRITICO", p.executar(88.0).status());
     }
 
     @Test
@@ -34,8 +31,6 @@ class ProcedimentosConcretosTest {
         assertEquals("TEMPERATURA: 72.0 °C (bruto 70.0) -> ALERTA",
                 new ProcedimentoTemperatura().executar(70.0).mensagem());
     }
-
-    // ---- ProcedimentoPressao: calibração converte kPa em bar; limites 8/12 ----
 
     @Test
     void pressaoDeveConverterKpaParaBar() {
@@ -52,9 +47,9 @@ class ProcedimentosConcretosTest {
         ProcedimentoPressao p = new ProcedimentoPressao();
 
         assertEquals("NORMAL", p.executar(799.0).status());
-        assertEquals("ALERTA", p.executar(800.0).status());    // 8 bar: no limite
+        assertEquals("ALERTA", p.executar(800.0).status());
         assertEquals("ALERTA", p.executar(1199.0).status());
-        assertEquals("CRITICO", p.executar(1200.0).status());  // 12 bar: no limite
+        assertEquals("CRITICO", p.executar(1200.0).status());
     }
 
     @Test
@@ -65,7 +60,7 @@ class ProcedimentosConcretosTest {
 
     @Test
     void mesmoNumeroBrutoDeveTerSignificadoDiferenteEmCadaSensor() {
-        // 500 é folgado para temperatura calibrada? Não: é crítico. Para pressão (500 kPa = 5 bar) é normal.
+
         assertEquals("CRITICO", new ProcedimentoTemperatura().executar(500.0).status());
         assertEquals("NORMAL", new ProcedimentoPressao().executar(500.0).status());
     }
@@ -76,7 +71,6 @@ class ProcedimentosConcretosTest {
         assertThrows(IllegalArgumentException.class, () -> new ProcedimentoPressao().executar(Double.NaN));
     }
 
-    // ---- ProcedimentoTemperaturaComAlarme: sobrescreve só o hook ----
 
     @Test
     void semSobrescreverOHookOResultadoDeveSerIgualAoDaClassePai() {
@@ -90,11 +84,11 @@ class ProcedimentosConcretosTest {
     void hookSobrescritoDeveRegistrarAlarmeApenasEmLeituraCritica() {
         ProcedimentoTemperaturaComAlarme p = new ProcedimentoTemperaturaComAlarme();
 
-        p.executar(50.0);   // NORMAL
-        p.executar(75.0);   // ALERTA (77 calibrado)
+        p.executar(50.0);
+        p.executar(75.0);
         assertTrue(p.getAlarmes().isEmpty());
 
-        p.executar(95.0);   // CRITICO (97 calibrado)
+        p.executar(95.0);
         assertEquals(1, p.getAlarmes().size());
         assertEquals("ALARME: temperatura crítica 97.0", p.getAlarmes().get(0));
     }

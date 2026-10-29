@@ -1,9 +1,5 @@
 package com.faculdade.sensor;
 
-/**
- * Concrete Class 1: preenche só os passos abstratos. O hardware de
- * temperatura tem um desvio conhecido de -2 graus, corrigido na calibração.
- */
 public class ProcedimentoTemperatura extends ProcedimentoMedicao {
 
     private static final double DESVIO_DO_HARDWARE = 2.0;

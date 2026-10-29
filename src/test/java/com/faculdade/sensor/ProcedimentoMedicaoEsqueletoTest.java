@@ -8,10 +8,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Testa o que caracteriza o Template Method: o esqueleto é fixo e não pode
- * ser alterado, e os passos são chamados na ordem definida pela classe-base.
- */
 class ProcedimentoMedicaoEsqueletoTest {
 
     private final ProcedimentoEspiao espiao = new ProcedimentoEspiao();
@@ -80,9 +76,9 @@ class ProcedimentoMedicaoEsqueletoTest {
 
     @Test
     void hookDeveReceberOStatusEJaCalculadoPelaClasseBase() {
-        espiao.executar(5.0);    // 6.0 -> NORMAL
-        espiao.executar(10.0);   // 11.0 -> ALERTA
-        espiao.executar(25.0);   // 26.0 -> CRITICO
+        espiao.executar(5.0);
+        espiao.executar(10.0);
+        espiao.executar(25.0);
 
         List<String> hooks = espiao.getChamadas().stream()
                 .filter(c -> c.startsWith("aoClassificar")).toList();
@@ -91,10 +87,10 @@ class ProcedimentoMedicaoEsqueletoTest {
 
     @Test
     void classificacaoDeveUsarOsLimitesFornecidosPelaSubclasseNoValorCalibrado() {
-        assertEquals("NORMAL", espiao.executar(8.0).status());    // 9.0
-        assertEquals("ALERTA", espiao.executar(9.0).status());    // 10.0 = limite de alerta
-        assertEquals("ALERTA", espiao.executar(18.0).status());   // 19.0
-        assertEquals("CRITICO", espiao.executar(19.0).status());  // 20.0 = limite crítico
+        assertEquals("NORMAL", espiao.executar(8.0).status());
+        assertEquals("ALERTA", espiao.executar(9.0).status());
+        assertEquals("ALERTA", espiao.executar(18.0).status());
+        assertEquals("CRITICO", espiao.executar(19.0).status());
     }
 
     @Test

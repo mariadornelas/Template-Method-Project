@@ -3,11 +3,6 @@ package com.faculdade.sensor;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Dublê de teste: subclasse mínima que registra, na ordem, cada passo
- * abstrato e o hook que o template method chama. Não faz parte do padrão.
- * Valores fixos: calibrar soma 1, alerta em 10, crítico em 20.
- */
 class ProcedimentoEspiao extends ProcedimentoMedicao {
 
     private final List<String> chamadas = new ArrayList<>();
